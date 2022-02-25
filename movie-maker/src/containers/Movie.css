@@ -1,0 +1,15 @@
+.movie {
+  border: 0.5px solid rgb(80, 78, 78);
+  color: rgb(126, 123, 123);
+  margin: auto;
+}
+
+.movie:hover {
+  color: rgb(83, 134, 83);
+  font-weight: bold;
+}
+
+img {
+  height: 150px;
+  width: 100px;
+}
