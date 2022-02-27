@@ -6,12 +6,12 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const { graphqlHTTP } = require('express-graphql')
-const { buildSchema } = require('graphql');
+const movieSchema = require('./schema/schema')
+const resolvers = require('./resolver/resolver')
 
 
 mongoose.connect(`mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.y2yfx.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
-  // useCreateIndex: true,  // https://www.mongodb.com/community/forums/t/option-usecreateindex-is-not-supported/123048
   useUnifiedTopology: true,
 })
   .then(() => {
@@ -21,22 +21,10 @@ mongoose.connect(`mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@
     console.log('err: ', err);
   })
 
-const schema = buildSchema(`
-  type Query {
-    name: String
-  }
-`)
-
-const rootValue = {
-  name: () => {
-    return 'Hello'
-  }
-}
-
 app.use('/graphql', graphqlHTTP({
-  schema,
+  schema: movieSchema,
   graphiql: true,
-  rootValue,
+  rootValue: resolvers,
 }))
 
 app.get('/', (req, res) => {
