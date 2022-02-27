@@ -5,6 +5,9 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const { graphqlHTTP } = require('express-graphql')
+const { buildSchema } = require('graphql');
+
 
 mongoose.connect(`mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.y2yfx.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
@@ -17,6 +20,24 @@ mongoose.connect(`mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@
   .catch((err) => {
     console.log('err: ', err);
   })
+
+const schema = buildSchema(`
+  type Query {
+    name: String
+  }
+`)
+
+const rootValue = {
+  name: () => {
+    return 'Hello'
+  }
+}
+
+app.use('/graphql', graphqlHTTP({
+  schema,
+  graphiql: true,
+  rootValue,
+}))
 
 app.get('/', (req, res) => {
   res.send('Hello from app.js backend')
