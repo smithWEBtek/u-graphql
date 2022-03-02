@@ -6,7 +6,7 @@ const movieSchema = buildSchema(`
   }
 
   type Mutation {
-    addMovie(name: String!, genre: String!, year: String!): Movie
+    addMovie(name: String!, genre: String!, year: String!, imageUrl: String!): Movie
   }
 
   type Movie {
