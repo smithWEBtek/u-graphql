@@ -7,7 +7,7 @@ const Movie = require('../model/model')
 //   { id: 4, name: "Jurassic Park", genre: "Action", year: 1993, imageUrl: "https://tinyurl.com/53yvbjs3" },
 //   { id: 5, name: "Succession", genre: "Drama", year: 2020, imageUrl: "https://tinyurl.com/yeb2cddn" },
 // ]
-// const movies = [
+// const movies2 = [
 // (name: "Parabellum", genre: "Action", year: 2019, imageUrl: "https://tinyurl.com/pbjk6r9f")
 // (name: "Jaws", genre: "Action", year: 1974, imageUrl: "https://tinyurl.com/3amsdez5")
 // (name: "Rob Roy", genre: "Drama", year: 1996, imageUrl: "https://tinyurl.com/y7ytjd6a")
@@ -20,6 +20,12 @@ const resolvers = {
     // return movies
     return Movie.find({})
   },
+  movieById: (args) => {
+    return Movie.findOne({ _id: args._id })
+  },
+  movieByName: (args) => {
+    return Movie.findOne({ name: args.name })
+  },
   addMovie: (args) => {
     let movie = new Movie({
       name: args.name,
@@ -30,7 +36,6 @@ const resolvers = {
     movie.save()
     return movie
   }
-
 }
 
 module.exports = resolvers
